@@ -1,0 +1,40 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yearly Log Planner</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="planner">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button id="prevYear" class="year-btn">
+        <i data-lucide="arrow-left"></i>
+        </button>
+
+        <div class="year-display" id="yearDisplay">2026</div>
+
+        <button id="nextYear" class="year-btn">
+        <i data-lucide="arrow-right"></i>
+        </button>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+
+        <section class="year-layout" id="monthsGrid"></section>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

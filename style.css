@@ -1,0 +1,476 @@
+/* style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#ffffff;
+  color:#2d2d2d;
+  min-height:100vh;
+  padding:0 15px;
+  margin: 0;
+  margin-top: 0;
+}
+
+/* MAIN PLANNER */
+
+.planner{
+  max-width:1600px;
+  margin:auto;
+}
+
+/* TOPBAR */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:14px;
+
+  padding:14px 0;
+  margin-bottom:25px;
+
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+.year-display{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.year-btn{
+  width:35px;
+  height:35px;
+  border:none;
+  border-radius:12px;
+  background:white;
+  cursor:pointer;
+  font-size:20px;
+  transition:.2s;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+.year-btn svg{
+  width: 15px;
+  height: 15px;
+  stroke-width:2.3;
+}
+
+.year-btn:hover{
+  transform:translateY(-2px);
+}
+
+
+
+
+.month-card{
+  position:relative;
+}
+
+.month-title{
+  font-family:'Caveat',cursive;
+  font-size:34px;
+  margin-bottom:10px;
+  text-transform:none;
+}
+
+/* WEEKDAYS */
+
+.weekdays{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  font-size:11px;
+  margin-bottom:4px;
+  opacity:.6;
+}
+
+.weekdays span{
+  text-align:center;
+}
+
+/* DAYS */
+
+.days-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+}
+
+.day{
+  width:100%;
+  aspect-ratio:1;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+  position:relative;
+}
+
+.day:hover{
+  background:#ece7df;
+}
+
+.empty{
+  visibility:hidden;
+}
+
+.today{
+  outline:2px solid #2d2d2d;
+  outline-offset:1px;
+}
+
+/* PASTEL COLORS */
+
+.color-0{
+  background:#f8d7da;
+}
+
+.color-1{
+  background:#ffe8b6;
+}
+
+.color-2{
+  background:#d8f5d0;
+}
+
+.color-3{
+  background:#cfe8ff;
+}
+
+.color-4{
+  background:#eadcff;
+}
+
+.color-5{
+  background:#ffd9ec;
+}
+
+/* NOTES PANEL */
+
+.notes-panel{
+  background:white;
+  border-radius:28px;
+  padding:28px;
+  min-height:700px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.06);
+  position:sticky;
+  top:20px;
+}
+
+.notes-header h2{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.notes-header p{
+  font-size:14px;
+  opacity:.6;
+  margin-bottom:25px;
+}
+
+
+
+.note-text{
+  width:100%;
+  min-height:70px;
+  border:none;
+  background:#f7f7f7;
+  border-radius:14px;
+  padding:14px;
+  resize:vertical;
+  font-family:inherit;
+  font-size:14px;
+}
+
+.note-text:focus{
+  outline:none;
+  background:#f1f1f1;
+}
+
+/* EMPTY */
+
+.empty-note{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  min-height:52px;
+  padding:12px 16px;
+
+
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.2px;
+
+  color:#868686;
+}
+/* RESPONSIVE */
+
+@media(max-width:1200px){
+
+
+  .notes-panel{
+    position:relative;
+    top:unset;
+  }
+
+}
+
+
+@media(max-width:600px){
+
+  .topbar{
+  padding:13px 0;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+  .month-title{
+    font-size:30px;
+  }
+
+  .year-display{
+    font-size:30px;
+  }
+
+  .empty-note{
+  min-height:38px;
+  padding:8px 10px;
+  border-radius:10px;
+  font-size:9px;
+}
+
+}
+
+
+.year-layout{
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+}
+
+/* EACH MONTH ROW */
+
+.month-row{
+  display:grid;
+  grid-template-columns:minmax(170px,320px) 1fr;
+  gap:50px;
+  align-items:start;
+}
+
+/* LEFT CALENDAR */
+
+.month-card{
+  width:100%;
+}
+
+/* RIGHT NOTES */
+
+.month-notes{
+  padding-top:20px;
+  min-height:120px;
+}
+
+/* NOTE ITEM */
+
+.note-item{
+  margin-bottom:10px;
+}
+
+
+.note-text{
+  width:100%;
+  border:none;
+  background:#fff;
+  min-height:50px;
+  padding:10px 14px;
+  border-radius:12px;
+  font-family:inherit;
+  resize:vertical;
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.note-text:focus{
+  outline:none;
+}
+
+.year-layout{
+  overflow-x:hidden;
+}
+
+/* NOTES */
+
+.month-notes{
+  padding-top:8px;
+  min-height:120px;
+}
+
+
+
+.note-line{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* DATE COLOR BOX */
+
+.note-badge{
+  min-width:28px;
+  height:22px;
+  border-radius:5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:600;
+  flex-shrink:0;
+}
+
+/* INPUT */
+
+.note-input{
+  border:none;
+  background:transparent;
+  width:100%;
+  font-size:13px;
+  font-family:'Inter',sans-serif;
+  color:#2d2d2d;
+  padding-bottom:2px;
+}
+
+/* SUBTLE LINE */
+
+.note-input{
+  border-bottom:1px solid rgba(0,0,0,0.03);
+}
+
+.note-input:focus{
+  outline:none;
+  border-color:rgba(0,0,0,0.2);
+}
+
+/* PLACEHOLDER */
+
+.note-input::placeholder{
+  color:#9d9d9d;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  body{
+    padding:14px;
+  }
+
+  .month-row{
+  grid-template-columns: 125px 1fr;
+  gap:12px;
+  align-items:start;
+}
+
+  .month-title{
+    font-size:18px;
+    margin-bottom:4px;
+    }
+
+  .weekdays{
+  font-size:7px;
+  margin-bottom:2px;
+}
+
+  .days-grid{
+  gap:1px;
+}
+
+ .day{
+  font-size:8px;
+  border-radius:4px;
+   aspect-ratio:1/1;
+  min-height:16px;
+}
+
+  .note-date{
+    font-size:12px;
+  }
+
+  .note-text{
+    min-height:42px;
+    font-size:12px;
+    padding:10px;
+  }
+
+  .year-display{
+    font-size: 17px;
+  }
+
+  .year-btn{
+    width:34px;
+    height:34px;
+    font-size:16px;
+  }
+
+  .year-btn svg{
+  width: 12px;
+  height: 12px;
+    }
+
+/* NOTES MOBILE */
+
+.month-notes{
+  padding-top:2px;
+  min-height:auto;
+}
+
+.note-item{
+  margin-bottom:3px;
+}
+
+.note-line{
+  gap:5px;
+  align-items:center;
+}
+
+/* DATE BADGE */
+
+.note-badge{
+  min-width:18px;
+  height:15px;
+  border-radius:3px;
+  font-size:8px;
+  font-weight:600;
+}
+
+/* INPUT */
+
+.note-input{
+  font-size:9px;
+  padding-bottom:1px;
+  line-height:1.1;
+  min-width: 0;
+}
+
+/* PLACEHOLDER */
+
+.note-input::placeholder{
+  font-size:9px;
+}
+
+}
