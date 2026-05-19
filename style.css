@@ -73,9 +73,6 @@ body{
   transform:translateY(-2px);
 }
 
-
-
-
 .month-card{
   position:relative;
 }
@@ -269,8 +266,8 @@ body{
 
 .month-row{
   display:grid;
-  grid-template-columns:minmax(170px,320px) 1fr;
-  gap:50px;
+  grid-template-columns:minmax(220px,280px) 1fr;
+  gap:40px;
   align-items:start;
 }
 
@@ -377,100 +374,96 @@ body{
 @media(max-width:900px){
 
   body{
-    padding:14px;
+    padding:16px;
   }
 
   .month-row{
-  grid-template-columns: 125px 1fr;
-  gap:12px;
-  align-items:start;
+    grid-template-columns:190px 1fr;
+    gap:22px;
+    align-items:start;
+  }
+
+  .month-card{
+  padding-right:8px;
 }
 
   .month-title{
-    font-size:18px;
-    margin-bottom:4px;
-    }
+    font-size:24px;
+    margin-bottom:6px;
+  }
 
   .weekdays{
-  font-size:7px;
-  margin-bottom:2px;
-}
+    font-size:10px;
+    margin-bottom:4px;
+  }
 
   .days-grid{
-  gap:1px;
-}
+    gap:3px;
+  }
 
- .day{
-  font-size:8px;
-  border-radius:4px;
-   aspect-ratio:1/1;
-  min-height:16px;
-}
+  .day{
+    font-size:11px;
+    border-radius:6px;
+    aspect-ratio:1/1;
+    min-height:24px;
+  }
 
   .note-date{
-    font-size:12px;
+    font-size:13px;
   }
 
   .note-text{
-    min-height:42px;
-    font-size:12px;
+    min-height:46px;
+    font-size:13px;
     padding:10px;
   }
 
   .year-display{
-    font-size: 17px;
+    font-size:20px;
   }
 
   .year-btn{
-    width:34px;
-    height:34px;
-    font-size:16px;
+    width:36px;
+    height:36px;
   }
 
   .year-btn svg{
-  width: 12px;
-  height: 12px;
-    }
+    width:13px;
+    height:13px;
+  }
 
-/* NOTES MOBILE */
+  /* NOTES MOBILE */
 
-.month-notes{
-  padding-top:2px;
-  min-height:auto;
-}
+  .month-notes{
+    padding-top:4px;
+    min-height:auto;
+  }
 
-.note-item{
-  margin-bottom:3px;
-}
+  .note-item{
+    margin-bottom:6px;
+  }
 
-.note-line{
-  gap:5px;
-  align-items:center;
-}
+  .note-line{
+    gap:8px;
+    align-items:center;
+  }
 
-/* DATE BADGE */
+  .note-badge{
+    min-width:22px;
+    height:18px;
+    border-radius:4px;
+    font-size:9px;
+  }
 
-.note-badge{
-  min-width:18px;
-  height:15px;
-  border-radius:3px;
-  font-size:8px;
-  font-weight:600;
-}
+  .note-input{
+    font-size:11px;
+    padding-bottom:2px;
+    line-height:1.3;
+    min-width:0;
+  }
 
-/* INPUT */
-
-.note-input{
-  font-size:9px;
-  padding-bottom:1px;
-  line-height:1.1;
-  min-width: 0;
-}
-
-/* PLACEHOLDER */
-
-.note-input::placeholder{
-  font-size:9px;
-}
+  .note-input::placeholder{
+    font-size:11px;
+  }
 
 }
