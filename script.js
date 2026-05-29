@@ -30,8 +30,13 @@ const today = new Date();
 
 const STORAGE_KEY = "fullmoon.pocketplanner.yearlylog";
 
+const savedYearlyData =
+  JSON.parse(
+    localStorage.getItem(STORAGE_KEY)
+  );
+
 let yearlyData =
-  JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  savedYearlyData?.data || {};
 
 /* ---------- INIT ---------- */
 
@@ -301,9 +306,19 @@ function renderMonthNotes(year, month){
 function saveData(){
 
   localStorage.setItem(
-  STORAGE_KEY,
-  JSON.stringify(yearlyData)
-);
+
+    STORAGE_KEY,
+
+    JSON.stringify({
+
+      data: yearlyData,
+
+      updatedAt: Date.now()
+
+    })
+
+  );
+
 }
 
 /* ---------- DATE KEY ---------- */
