@@ -303,6 +303,22 @@ function renderMonthNotes(year, month){
 
 /* ---------- STORAGE ---------- */
 
+function notifyDashboardSync() {
+
+  if (window.parent !== window) {
+
+    window.parent.postMessage(
+      {
+        type: "plannerChanged",
+        planner: STORAGE_KEY
+      },
+      "*"
+    );
+
+  }
+
+}
+
 function saveData(){
 
   localStorage.setItem(
@@ -318,6 +334,8 @@ function saveData(){
     })
 
   );
+
+  notifyDashboardSync();
 
 }
 
