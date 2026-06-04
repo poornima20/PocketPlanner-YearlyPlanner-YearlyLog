@@ -8,12 +8,21 @@ const nextYearBtn = document.getElementById("nextYear");
 const yearDisplay = document.getElementById("yearDisplay");
 
 const monthNames = [
-  "January","February","March","April",
-  "May","June","July","August",
-  "September","October","November","December"
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
-const weekdayNames = ["S","M","T","W","T","F","S"];
+const weekdayNames = ["S", "M", "T", "W", "T", "F", "S"];
 
 const pastelClasses = [
   "color-0",
@@ -21,7 +30,7 @@ const pastelClasses = [
   "color-2",
   "color-3",
   "color-4",
-  "color-5"
+  "color-5",
 ];
 
 let activeYear = new Date().getFullYear();
@@ -30,13 +39,9 @@ const today = new Date();
 
 const STORAGE_KEY = "fullmoon.pocketplanner.yearlylog";
 
-const savedYearlyData =
-  JSON.parse(
-    localStorage.getItem(STORAGE_KEY)
-  );
+const savedYearlyData = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-let yearlyData =
-  savedYearlyData?.data || {};
+let yearlyData = savedYearlyData?.data || {};
 
 /* ---------- INIT ---------- */
 
@@ -56,14 +61,12 @@ nextYearBtn.addEventListener("click", () => {
 
 /* ---------- RENDER YEAR ---------- */
 
-function renderYear(year){
-
+function renderYear(year) {
   yearDisplay.textContent = year;
 
   monthsGrid.innerHTML = "";
 
-  for(let month = 0; month < 12; month++){
-
+  for (let month = 0; month < 12; month++) {
     const monthRow = document.createElement("div");
     monthRow.className = "month-row";
 
@@ -90,8 +93,7 @@ function renderYear(year){
 
 /* ---------- CREATE MONTH ---------- */
 
-function createMonth(year, month){
-
+function createMonth(year, month) {
   const monthCard = document.createElement("div");
   monthCard.className = "month-card";
   monthCard.id = `month-${month}`;
@@ -103,7 +105,7 @@ function createMonth(year, month){
   const weekdays = document.createElement("div");
   weekdays.className = "weekdays";
 
-  weekdayNames.forEach(day => {
+  weekdayNames.forEach((day) => {
     const span = document.createElement("span");
     span.textContent = day;
     weekdays.appendChild(span);
@@ -118,8 +120,7 @@ function createMonth(year, month){
 
   /* EMPTY BOXES */
 
-  for(let i = 0; i < firstDay; i++){
-
+  for (let i = 0; i < firstDay; i++) {
     const empty = document.createElement("div");
     empty.className = "day empty";
 
@@ -128,8 +129,7 @@ function createMonth(year, month){
 
   /* REAL DAYS */
 
-  for(let day = 1; day <= totalDays; day++){
-
+  for (let day = 1; day <= totalDays; day++) {
     const dayEl = document.createElement("div");
     dayEl.className = "day";
     dayEl.textContent = day;
@@ -138,29 +138,24 @@ function createMonth(year, month){
 
     /* TODAY */
 
-    if(
+    if (
       year === today.getFullYear() &&
       month === today.getMonth() &&
       day === today.getDate()
-    ){
+    ) {
       dayEl.classList.add("today");
     }
 
     /* SAVED COLOR */
 
-    if(yearlyData[key]){
-
-      dayEl.classList.add(
-        pastelClasses[yearlyData[key].colorIndex]
-      );
+    if (yearlyData[key]) {
+      dayEl.classList.add(pastelClasses[yearlyData[key].colorIndex]);
     }
 
     /* CLICK */
 
     dayEl.addEventListener("click", () => {
-
       handleDayClick(year, month, day, dayEl);
-
     });
 
     daysGrid.appendChild(dayEl);
@@ -175,36 +170,31 @@ function createMonth(year, month){
 
 /* ---------- CLICK DAY ---------- */
 
-function handleDayClick(year, month, day, element){
-
+function handleDayClick(year, month, day, element) {
   const key = getDateKey(year, month, day);
 
   /* NEW */
 
-  if(!yearlyData[key]){
-
+  if (!yearlyData[key]) {
     yearlyData[key] = {
-      colorIndex:0,
-      note:""
+      colorIndex: 0,
+      note: "",
     };
-
-  }else{
-
+  } else {
     yearlyData[key].colorIndex++;
 
     /* REMOVE IF OVER */
 
-    if(yearlyData[key].colorIndex >= pastelClasses.length){
-
+    if (yearlyData[key].colorIndex >= pastelClasses.length) {
       delete yearlyData[key];
 
       element.className = "day";
 
-      if(
+      if (
         year === today.getFullYear() &&
         month === today.getMonth() &&
         day === today.getDate()
-      ){
+      ) {
         element.classList.add("today");
       }
 
@@ -217,15 +207,13 @@ function handleDayClick(year, month, day, element){
 
   element.className = "day";
 
-  element.classList.add(
-    pastelClasses[yearlyData[key].colorIndex]
-  );
+  element.classList.add(pastelClasses[yearlyData[key].colorIndex]);
 
-  if(
+  if (
     year === today.getFullYear() &&
     month === today.getMonth() &&
     day === today.getDate()
-  ){
+  ) {
     element.classList.add("today");
   }
 
@@ -236,22 +224,18 @@ function handleDayClick(year, month, day, element){
 
 /* ---------- NOTES ---------- */
 
-function renderMonthNotes(year, month){
-
+function renderMonthNotes(year, month) {
   const container = document.getElementById(`notes-${month}`);
 
   container.innerHTML = "";
 
-  const entries = Object.entries(yearlyData)
-    .filter(([key]) => {
+  const entries = Object.entries(yearlyData).filter(([key]) => {
+    const [y, m] = key.split("-");
 
-      const [y,m] = key.split("-");
+    return Number(y) === year && Number(m) === month;
+  });
 
-      return Number(y) === year && Number(m) === month;
-    });
-
-  if(entries.length === 0){
-
+  if (entries.length === 0) {
     container.innerHTML = `
       <div class="empty-note">
         No notes yet.
@@ -262,8 +246,7 @@ function renderMonthNotes(year, month){
   }
 
   entries.forEach(([key, value]) => {
-
-    const [y,m,d] = key.split("-");
+    const [y, m, d] = key.split("-");
 
     const noteItem = document.createElement("div");
     noteItem.className = "note-item";
@@ -287,86 +270,66 @@ function renderMonthNotes(year, month){
 
     `;
 
-        const input = noteItem.querySelector(".note-input");
+    const input = noteItem.querySelector(".note-input");
 
     input.addEventListener("input", () => {
+      yearlyData[key].note = input.value;
 
-    yearlyData[key].note = input.value;
-
-    saveData();
+      saveData();
     });
 
     container.appendChild(noteItem);
-
   });
 }
 
 /* ---------- STORAGE ---------- */
 
 function notifyDashboardSync() {
-
   if (window.parent !== window) {
-
     window.parent.postMessage(
       {
         type: "plannerChanged",
-        planner: STORAGE_KEY
+        planner: STORAGE_KEY,
       },
-      "*"
+      "*",
     );
-
   }
-
 }
 
-function saveData(){
-
+function saveData() {
   localStorage.setItem(
-
     STORAGE_KEY,
 
     JSON.stringify({
-
       data: yearlyData,
 
-      updatedAt: Date.now()
-
-    })
-
+      updatedAt: Date.now(),
+    }),
   );
 
   notifyDashboardSync();
-
 }
 
 /* ---------- DATE KEY ---------- */
 
-function getDateKey(year, month, day){
-
+function getDateKey(year, month, day) {
   return `${year}-${month}-${day}`;
 }
 
 /* ---------- AUTO SCROLL ---------- */
 
-function scrollToCurrentMonth(year){
-
-  if(year !== today.getFullYear()) return;
+function scrollToCurrentMonth(year) {
+  if (year !== today.getFullYear()) return;
 
   setTimeout(() => {
+    const currentMonth = document.getElementById(`month-${today.getMonth()}`);
 
-    const currentMonth = document.getElementById(
-      `month-${today.getMonth()}`
-    );
-
-    if(currentMonth){
-
+    if (currentMonth) {
       currentMonth.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
+        behavior: "smooth",
+        block: "center",
       });
-
     }
-
   }, 300);
 }
 
