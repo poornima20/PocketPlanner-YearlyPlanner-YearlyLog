@@ -1,469 +1,497 @@
-/* style.css */
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600&display=swap');
+/* =========================================
+   RESET
+========================================= */
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:'Inter',sans-serif;
-  background:#ffffff;
-  color:#2d2d2d;
-  min-height:100vh;
-  padding:0 15px;
+* {
   margin: 0;
-  margin-top: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* MAIN PLANNER */
-
-.planner{
-  max-width:1600px;
-  margin:auto;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* prevent page scroll */
 }
 
-/* TOPBAR */
-
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:1000;
-
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:14px;
-
-  padding:14px 0;
-  margin-bottom:25px;
-
-  background:rgba(255,255,255,0.82);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+body {
+  font-family: "Inter", sans-serif;
+  background: #fafafa;
+  color: #2d2d2d;
 }
 
-.year-display{
-  font-size:22px;
-  font-weight:700;
-  letter-spacing:2px;
+/* =========================================
+   PLANNER
+========================================= */
+
+.planner {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.year-btn{
-  width:35px;
-  height:35px;
-  border:none;
-  border-radius:12px;
-  background:white;
-  cursor:pointer;
-  font-size:20px;
-  transition:.2s;
-  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+/* =========================================
+   TOP BAR
+========================================= */
+
+.topbar {
+  height: 45px;
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+
+  padding: 0 32px;
+
+  background: #fafafa;
+
+  border-bottom: 1px solid #ececec;
 }
 
-.year-btn svg{
-  width: 15px;
-  height: 15px;
-  stroke-width:2.3;
+.year-display {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
 }
 
-.year-btn:hover{
-  transform:translateY(-2px);
+.year-btn {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 18px;
+
+  background: transparent;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
-.month-card{
-  position:relative;
+.year-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
-.month-title{
-  font-family:'Caveat',cursive;
-  font-size:34px;
-  margin-bottom:10px;
-  text-transform:none;
+/* =========================================
+   MAIN SCROLLER
+========================================= */
+
+main {
+  flex: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: thin; /* Firefox */
 }
 
-/* WEEKDAYS */
-
-.weekdays{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  font-size:11px;
-  margin-bottom:4px;
-  opacity:.6;
+/* Desktop scrollbar */
+main::-webkit-scrollbar {
+  height: 10px;
 }
 
-.weekdays span{
-  text-align:center;
+main::-webkit-scrollbar-track {
+  background: #f2f2f2;
+  border-radius: 20px;
 }
 
-/* DAYS */
+main::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 20px;
+}
 
+main::-webkit-scrollbar-thumb:hover {
+  background: #b8b8b8;
+}
+
+/* =========================================
+   MONTH CONTAINER
+========================================= */
+
+.year-layout {
+  display: flex;
+  width: max-content;
+  height: 100%;
+}
+
+/* =========================================
+   MONTH
+========================================= */
+
+.month-row {
+  flex: 0 0 calc(100vw / 3);
+  width: calc(100vw / 3);
+
+  padding: 14px;
+  border-right: 1px solid #ececec;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+
+  scroll-snap-align: start;
+}
+
+.month-row:last-child {
+  border-right: none;
+}
+
+.month-title,
+.weekdays,
+.days-grid {
+  flex-shrink: 0;
+}
+
+.weekdays,
 .days-grid{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:4px;
+    display:grid;
+    grid-template-columns:repeat(7, minmax(0,1fr));
+    width:100%;
 }
 
-.day{
-  width:100%;
-  aspect-ratio:1;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  cursor:pointer;
-  transition:.2s;
-  position:relative;
+main,
+.year-layout {
+  height: 100%;
 }
 
-.day:hover{
-  background:#ece7df;
+.month-card {
+  flex-shrink: 0;
 }
 
-.empty{
-  visibility:hidden;
+/* =========================================
+   TITLE
+========================================= */
+
+.month-title {
+  font-family: "Caveat", cursive;
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 14px;
 }
 
-.today{
-  outline:2px solid #2d2d2d;
-  outline-offset:1px;
+/* =========================================
+   WEEKDAYS
+========================================= */
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 10px;
+
+  color: #8a8a8a;
+  font-size: 9px;
 }
 
-/* PASTEL COLORS */
-
-.color-0{
-  background:#f8d7da;
+.weekdays span {
+  text-align: center;
 }
 
-.color-1{
-  background:#ffe8b6;
+/* =========================================
+   CALENDAR
+========================================= */
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 3px;
+
+  margin-bottom: 16px;
 }
 
-.color-2{
-  background:#d8f5d0;
+.day {
+  aspect-ratio: 1;
+  height: auto;
+  min-height: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 10px;
+  border-radius: 5px;
 }
 
-.color-3{
-  background:#cfe8ff;
+.day:hover {
+  background: #efefef;
 }
 
-.color-4{
-  background:#eadcff;
+.empty {
+  visibility: hidden;
 }
 
-.color-5{
-  background:#ffd9ec;
+.today {
+  outline: 2px solid #2d2d2d;
+  outline-offset: 1px;
 }
 
-/* NOTES PANEL */
+/* =========================================
+   NOTES
+========================================= */
 
-.notes-panel{
-  background:white;
-  border-radius:28px;
-  padding:28px;
-  min-height:700px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.06);
-  position:sticky;
-  top:20px;
+.month-notes {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  min-height: 0;
+
+  padding-top: 8px;
 }
 
-.notes-header h2{
-  font-size:28px;
-  margin-bottom:8px;
+.month-notes::-webkit-scrollbar {
+  display: none;
 }
 
-.notes-header p{
-  font-size:14px;
-  opacity:.6;
-  margin-bottom:25px;
+.month-notes {
+  scrollbar-width: none;
 }
 
-
-
-.note-text{
-  width:100%;
-  min-height:70px;
-  border:none;
-  background:#f7f7f7;
-  border-radius:14px;
-  padding:14px;
-  resize:vertical;
-  font-family:inherit;
-  font-size:14px;
+.note-item {
+  width: 100%;
 }
 
-.note-text:focus{
-  outline:none;
-  background:#f1f1f1;
+.note-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* EMPTY */
+.note-badge {
+  width: 22px;
+  height: 20px;
 
-.empty-note{
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  border-radius: 6px;
 
-  min-height:52px;
-  padding:12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  font-size: 10px;
+  font-weight: 600;
 
-  font-size:12px;
-  font-weight:500;
-  letter-spacing:0.2px;
-
-  color:#868686;
-}
-/* RESPONSIVE */
-
-@media(max-width:1200px){
-
-
-  .notes-panel{
-    position:relative;
-    top:unset;
-  }
-
+  flex-shrink: 0;
 }
 
+.note-input {
+  flex: 1;
 
-@media(max-width:600px){
+  border: none;
+  border-bottom: 1px solid #ececec;
 
-  .topbar{
-  padding:13px 0;
-  gap:10px;
-  margin-bottom:18px;
+  background: transparent;
+
+  padding: 2px 0;
+
+  font-size: 11px;
+
+  min-width: 0;
 }
 
-  .month-title{
-    font-size:30px;
-  }
-
-  .year-display{
-    font-size:30px;
-  }
-
-  .empty-note{
-  min-height:38px;
-  padding:8px 10px;
-  border-radius:10px;
-  font-size:9px;
+.note-input:focus {
+  outline: none;
+  border-color: #999;
 }
 
+.empty-note {
+  color: #999;
+  font-size: 11px;
+  padding-top: 8px;
 }
 
+/* =========================================
+   COLORS
+========================================= */
 
-.year-layout{
-  display:flex;
-  flex-direction:column;
-  gap:40px;
+.color-0 {
+  background: #f8d7da;
 }
 
-/* EACH MONTH ROW */
-
-.month-row{
-  display:grid;
-  grid-template-columns:minmax(220px,280px) 1fr;
-  gap:40px;
-  align-items:start;
+.color-1 {
+  background: #ffe8b6;
 }
 
-/* LEFT CALENDAR */
-
-.month-card{
-  width:100%;
+.color-2 {
+  background: #d8f5d0;
 }
 
-/* RIGHT NOTES */
+.color-3 {
+  background: #cfe8ff;
+}
 
+.color-4 {
+  background: #eadcff;
+}
+
+.color-5 {
+  background: #ffd9ec;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+.month-card,
 .month-notes{
-  padding-top:20px;
-  min-height:120px;
+    width:300px;          /* same width as the calendar */
+    margin:0 auto;        /* center everything */
 }
-
-/* NOTE ITEM */
-
-.note-item{
-  margin-bottom:10px;
-}
-
-
-.note-text{
-  width:100%;
-  border:none;
-  background:#fff;
-  min-height:50px;
-  padding:10px 14px;
-  border-radius:12px;
-  font-family:inherit;
-  resize:vertical;
-  box-shadow:0 2px 8px rgba(0,0,0,0.05);
-}
-
-.note-text:focus{
-  outline:none;
-}
-
-.year-layout{
-  overflow-x:hidden;
-}
-
-/* NOTES */
-
-.month-notes{
-  padding-top:8px;
-  min-height:120px;
-}
-
-
-
-.note-line{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-/* DATE COLOR BOX */
-
-.note-badge{
-  min-width:28px;
-  height:22px;
-  border-radius:5px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:11px;
-  font-weight:600;
-  flex-shrink:0;
-}
-
-/* INPUT */
-
-.note-input{
-  border:none;
-  background:transparent;
-  width:100%;
-  font-size:13px;
-  font-family:'Inter',sans-serif;
-  color:#2d2d2d;
-  padding-bottom:2px;
-}
-
-/* SUBTLE LINE */
-
-.note-input{
-  border-bottom:1px solid rgba(0,0,0,0.03);
-}
-
-.note-input:focus{
-  outline:none;
-  border-color:rgba(0,0,0,0.2);
-}
-
-/* PLACEHOLDER */
-
-.note-input::placeholder{
-  color:#9d9d9d;
-}
-
-/* MOBILE */
-
-@media(max-width:900px){
-
-  body{
-    padding:16px;
+  
+  .topbar {
+    height: 35px;
+    padding: 0 12px;
+    gap: 10px;
   }
 
-  .month-row{
-    grid-template-columns:190px 1fr;
-    gap:22px;
-    align-items:start;
+  .year-display {
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .year-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+  }
+
+  .year-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* one month per screen */
+  .month-row {
+    flex: 0 0 100vw;
+    width: 100vw;
+
+    height: 100%;
+
+    padding: 1px;
+
+    display: flex;
+    flex-direction: column;
   }
 
   .month-card{
-  padding-right:8px;
+    flex:0 0 32%;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    padding-bottom:8px;
+}
+  .month-title {
+    font-size: 26px;
+    margin-bottom: 8px;
+     align-self:flex-start;   /* keep July left aligned */
+      margin-left:8px;
+  }
+
+  .weekdays {
+    font-size: 10px;
+     margin-bottom:6px;
+    
+  }
+
+    .weekdays,
+  .days-grid{
+      display:grid;
+
+      grid-template-columns:repeat(7, 40px);   /* fixed column width */
+
+      justify-content:center;   /* center calendar */
+
+      gap:4px;
+  }
+
+  .days-grid {
+    gap: 2px;
+    margin-bottom: 4px;
+  }
+
+  /* Fit all 6 calendar rows */
+    .day{
+      width:38px;
+      height:38px;
+
+      min-height:auto;
+
+      aspect-ratio:1;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:12px;
+      border-radius:8px;
+  }
+
+  .today {
+    outline-width: 2px;
+  }
+
+  .month-notes {
+    gap: 4px;
+    flex:1;
+    min-height:0;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    margin-top:8px;
+    padding-top:8px;
+
+    border-top:1px solid #ececec;
 }
 
-  .month-title{
-    font-size:24px;
-    margin-bottom:6px;
+  .note-line {
+    gap: 5px;
   }
 
-  .weekdays{
-    font-size:10px;
-    margin-bottom:4px;
+  .note-badge {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    font-size: 9px;
   }
 
-  .days-grid{
-    gap:3px;
+  .note-input {
+    font-size: 10px;
+    padding: 2px 0;
   }
 
-  .day{
-    font-size:11px;
-    border-radius:6px;
-    aspect-ratio:1/1;
-    min-height:24px;
+  .empty-note {
+    font-size: 10px;
+    padding-top: 4px;
   }
 
-  .note-date{
-    font-size:13px;
+  main::-webkit-scrollbar {
+    display: none;
   }
 
-  .note-text{
-    min-height:46px;
-    font-size:13px;
-    padding:10px;
+  main {
+    scrollbar-width: none; /* Firefox */
   }
 
-  .year-display{
-    font-size:20px;
-  }
-
-  .year-btn{
-    width:36px;
-    height:36px;
-  }
-
-  .year-btn svg{
-    width:13px;
-    height:13px;
-  }
-
-  /* NOTES MOBILE */
-
-  .month-notes{
-    padding-top:4px;
-    min-height:auto;
-  }
-
-  .note-item{
-    margin-bottom:6px;
-  }
-
-  .note-line{
-    gap:8px;
-    align-items:center;
-  }
-
-  .note-badge{
-    min-width:22px;
-    height:18px;
-    border-radius:4px;
-    font-size:9px;
-  }
-
-  .note-input{
-    font-size:11px;
-    padding-bottom:2px;
-    line-height:1.3;
-    min-width:0;
-  }
-
-  .note-input::placeholder{
-    font-size:11px;
-  }
-
+  /* ...rest of your mobile CSS... */
 }

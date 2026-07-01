@@ -22,7 +22,7 @@ const monthNames = [
   "December",
 ];
 
-const weekdayNames = ["S", "M", "T", "W", "T", "F", "S"];
+const weekdayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
 const pastelClasses = [
   "color-0",
@@ -39,23 +39,30 @@ const today = new Date();
 
 const STORAGE_KEY = "fullmoon.pocketplanner.yearlylog";
 
-const savedYearlyData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-let yearlyData = savedYearlyData?.data || {};
+let plannerData = {};
+let yearlyData = {};
 
 /* ---------- INIT ---------- */
-
+loadYear(activeYear);
 renderYear(activeYear);
 
 /* ---------- YEAR BUTTONS ---------- */
+function loadYear(year) {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  plannerData = saved?.data || {};
+  plannerData[year] ??= {};
+  yearlyData = plannerData[year];
+}
 
 prevYearBtn.addEventListener("click", () => {
   activeYear--;
+  loadYear(activeYear);
   renderYear(activeYear);
 });
 
 nextYearBtn.addEventListener("click", () => {
   activeYear++;
+  loadYear(activeYear);
   renderYear(activeYear);
 });
 
@@ -134,7 +141,7 @@ function createMonth(year, month) {
     dayEl.className = "day";
     dayEl.textContent = day;
 
-    const key = getDateKey(year, month, day);
+    const monthData = yearlyData[month] || {};
 
     /* TODAY */
 
@@ -146,10 +153,8 @@ function createMonth(year, month) {
       dayEl.classList.add("today");
     }
 
-    /* SAVED COLOR */
-
-    if (yearlyData[key]) {
-      dayEl.classList.add(pastelClasses[yearlyData[key].colorIndex]);
+    if (monthData[day]) {
+      dayEl.classList.add(pastelClasses[monthData[day].colorIndex]);
     }
 
     /* CLICK */
@@ -171,22 +176,24 @@ function createMonth(year, month) {
 /* ---------- CLICK DAY ---------- */
 
 function handleDayClick(year, month, day, element) {
-  const key = getDateKey(year, month, day);
+  const monthData = yearlyData[month] ??= {};
 
-  /* NEW */
-
-  if (!yearlyData[key]) {
-    yearlyData[key] = {
+  if (!monthData[day]) {
+    monthData[day] = {
       colorIndex: 0,
       note: "",
     };
   } else {
-    yearlyData[key].colorIndex++;
+    monthData[day].colorIndex++;
 
     /* REMOVE IF OVER */
 
-    if (yearlyData[key].colorIndex >= pastelClasses.length) {
-      delete yearlyData[key];
+    if (monthData[day].colorIndex >= pastelClasses.length) {
+      delete monthData[day];
+
+      if (Object.keys(monthData).length === 0) {
+        delete yearlyData[month];
+      }
 
       element.className = "day";
 
@@ -207,7 +214,7 @@ function handleDayClick(year, month, day, element) {
 
   element.className = "day";
 
-  element.classList.add(pastelClasses[yearlyData[key].colorIndex]);
+  element.classList.add(pastelClasses[monthData[day].colorIndex]);
 
   if (
     year === today.getFullYear() &&
@@ -229,11 +236,9 @@ function renderMonthNotes(year, month) {
 
   container.innerHTML = "";
 
-  const entries = Object.entries(yearlyData).filter(([key]) => {
-    const [y, m] = key.split("-");
+  const monthData = yearlyData[month] || {};
 
-    return Number(y) === year && Number(m) === month;
-  });
+  const entries = Object.entries(monthData);
 
   if (entries.length === 0) {
     container.innerHTML = `
@@ -246,7 +251,7 @@ function renderMonthNotes(year, month) {
   }
 
   entries.forEach(([key, value]) => {
-    const [y, m, d] = key.split("-");
+    const d = key;
 
     const noteItem = document.createElement("div");
     noteItem.className = "note-item";
@@ -273,7 +278,7 @@ function renderMonthNotes(year, month) {
     const input = noteItem.querySelector(".note-input");
 
     input.addEventListener("input", () => {
-      yearlyData[key].note = input.value;
+      monthData[key].note = input.value;
 
       saveData();
     });
@@ -297,23 +302,19 @@ function notifyDashboardSync() {
 }
 
 function saveData() {
+  plannerData[activeYear] = yearlyData;
+
   localStorage.setItem(
     STORAGE_KEY,
 
     JSON.stringify({
-      data: yearlyData,
+      data: plannerData,
 
       updatedAt: Date.now(),
     }),
   );
 
   notifyDashboardSync();
-}
-
-/* ---------- DATE KEY ---------- */
-
-function getDateKey(year, month, day) {
-  return `${year}-${month}-${day}`;
 }
 
 /* ---------- AUTO SCROLL ---------- */
@@ -323,14 +324,15 @@ function scrollToCurrentMonth(year) {
 
   setTimeout(() => {
     const currentMonth = document.getElementById(`month-${today.getMonth()}`);
+    const main = document.querySelector("main");
 
-    if (currentMonth) {
-      currentMonth.scrollIntoView({
+    if (currentMonth && main) {
+      main.scrollTo({
+        left: currentMonth.parentElement.offsetLeft,
         behavior: "smooth",
-        block: "center",
       });
     }
-  }, 300);
+  }, 100);
 }
 
 lucide.createIcons();
